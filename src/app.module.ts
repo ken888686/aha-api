@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './features/auth/auth.module';
 import { AuthService } from './features/auth/auth.service';
 import { Auth2Module } from './features/auth2/auth2.module';
+import { TodoModule } from './features/todo/todo.module';
 
 class FakeClass1 {
   name = 'A';
@@ -20,7 +21,7 @@ class MessageBox {
 }
 
 @Module({
-  imports: [AuthModule, Auth2Module],
+  imports: [AuthModule, Auth2Module, TodoModule],
   controllers: [AppController],
   providers: [
     AppService,

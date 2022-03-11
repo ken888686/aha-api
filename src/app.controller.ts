@@ -25,9 +25,7 @@ export class AppController {
     @Optional()
     @Inject('HANDSOME_AARON')
     private readonly handsomeAaron = { connectionString: '' },
-  ) {
-    console.log(this.handsomeAaron);
-  }
+  ) {}
 
   @Get()
   // @UseFilters(HttpExceptionFilter)
