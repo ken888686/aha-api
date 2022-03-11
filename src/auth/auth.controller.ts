@@ -7,12 +7,15 @@ import {
   Param,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
+import { Request } from 'supertest';
+import { CreateAuthDto } from './dto/create-auth.dto';
 
 @Controller('auth')
 export class AuthController {
   @Get('/')
-  login(): string[] {
+  login1(): string[] {
     return ['Hi!', `I'm root.`];
   }
 
@@ -76,5 +79,26 @@ export class AuthController {
       title: 'Hi2',
     };
     return data;
+  }
+
+  @Post('/login')
+  login(@Body() dto: CreateAuthDto): {
+    email: string;
+    password: string;
+  } {
+    return dto;
+  }
+
+  @Get('/request')
+  checkReq(@Req() req: Request): string {
+    console.log(req);
+    return 'req';
+  }
+
+  @Get('/async/get')
+  async getAsync() {
+    return new Promise((resolve, reject) =>
+      setTimeout(() => resolve([]), 2000),
+    );
   }
 }
