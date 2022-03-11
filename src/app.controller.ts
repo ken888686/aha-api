@@ -1,8 +1,20 @@
-import { Controller, Get, Inject, Optional } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Optional,
+  UseFilters,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { CustomException } from './exceptions/custom.exception';
 import { AuthService } from './features/auth/auth.service';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 @Controller()
+// @UseFilters(HttpExceptionFilter)
 export class AppController {
   constructor(
     private readonly appService: AppService,
@@ -18,13 +30,25 @@ export class AppController {
   }
 
   @Get()
+  // @UseFilters(HttpExceptionFilter)
   getHello(): { title: string } {
-    console.log(this.appService === this.alias);
     const value: { title: string } = JSON.parse(
       JSON.stringify(this.alias.getHello()),
     );
     value.title = 'Hi';
-
     return value;
+  }
+
+  @Get('/error')
+  getError() {
+    // throw new HttpException(
+    //   {
+    //     id: 'asdfadsfqwefr',
+    //     title: 'My Error',
+    //   },
+    //   HttpStatus.INTERNAL_SERVER_ERROR,
+    // );
+    throw new BadRequestException('錯誤');
+    // throw new CustomException();
   }
 }
