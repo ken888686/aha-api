@@ -1,11 +1,17 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './features/auth/auth.module';
 import { AuthService } from './features/auth/auth.service';
 import { Auth2Module } from './features/auth2/auth2.module';
 import { TodoModule } from './features/todo/todo.module';
-
+import { HelloMiddleware } from './middlewares/hello.middleware';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 class FakeClass1 {
   name = 'A';
 }
@@ -52,4 +58,17 @@ class MessageBox {
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware, HelloMiddleware).forRoutes(
+      {
+        path: '/todo',
+        method: RequestMethod.POST,
+      },
+      {
+        path: '/',
+        method: RequestMethod.GET,
+      },
+    );
+  }
+}
