@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { MailAuthDto } from './dto/mail-auth.dto';
 import {
   getAuth,

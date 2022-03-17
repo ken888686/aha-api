@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { initializeApp } from 'firebase/app';
 import { ValidationPipe } from '@nestjs/common';
+// import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBq5QXNMMSUfNtDHGcPwn-H2optH6aAnmc',
@@ -14,9 +15,10 @@ const firebaseConfig = {
 };
 
 async function bootstrap() {
+  initializeApp(firebaseConfig);
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  initializeApp(firebaseConfig);
+  // app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(3000);
 }
 bootstrap();
