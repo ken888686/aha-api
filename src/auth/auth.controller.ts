@@ -12,7 +12,10 @@ import { CreateUserFormatPipe } from 'src/pipes/create-user-format.pipe';
 import { AuthService } from './auth.service';
 import { MailAuthDto } from './dto/mail-auth.dto';
 
-@Controller('auth')
+@Controller({
+  path: 'auth',
+  version: '1',
+})
 @UseFilters(HttpExceptionFilter)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -33,6 +36,7 @@ export class AuthController {
 
   @Get('/test')
   test() {
-    throw new HttpException('test', 401);
+    // throw new HttpException('test', 401);
+    return { title: 'test' };
   }
 }
